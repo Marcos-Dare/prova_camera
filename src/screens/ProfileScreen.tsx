@@ -12,7 +12,7 @@ import {
   FlatList, 
   TouchableOpacity 
 } from 'react-native';
-
+import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -127,6 +127,38 @@ export default function ProfileScreen({ route, navigation }: Props) {
     );
   };
 
+  const handlePickImage = async () => {
+    // 1. Pedir permissão para acessar a galeria de mídia
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if (status !== 'granted') {
+      // Se o usuário negar, mostramos um alerta
+      Alert.alert('Permissão necessária', 'Precisamos da permissão da galeria para você poder escolher uma foto.');
+      return; // Para a execução da função
+    }
+
+    // 2. Abrir a galeria do usuário
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Garante que vamos pegar apenas imagens
+      allowsEditing: true, // Permite ao usuário recortar a imagem
+      aspect: [1, 1],      // Força um recorte quadrado (ótimo para fotos de perfil)
+      quality: 0.5,        // Comprime a imagem, assim como fazemos na câmera
+    });
+
+    // 3. Lidar com o resultado da seleção
+    if (!result.canceled) {
+      // 'result.canceled' é true se o usuário fechar a galeria sem escolher
+      
+      // Se ele ESCOLHEU uma imagem, ela vem em 'result.assets'
+      const newUri = result.assets[0].uri;
+      
+      // AGORA A MÁGICA:
+      // Vamos recarregar esta tela, passando a URI da galeria
+      // exatamente como se ela tivesse vindo da câmera.
+      navigation.navigate('Profile', { photoUri: newUri });
+    }
+  };
+
   const showSaveButton = isNewPhotoUnsaved && currentDisplayPhotoUri === newPhotoUriFromCamera;
   const showDeleteButton = currentDisplayPhotoUri && !isNewPhotoUnsaved && savedPhotos.includes(currentDisplayPhotoUri);
 
@@ -165,6 +197,13 @@ export default function ProfileScreen({ route, navigation }: Props) {
         <Button
           title="Tirar Nova Foto"
           onPress={() => navigation.navigate('Camera')}
+        />
+
+        <View style={{ marginVertical: 5 }} /> 
+        <Button
+          title="Escolher da Galeria"
+          onPress={handlePickImage}
+          color="#841584"
         />
       </View>
 
