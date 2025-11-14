@@ -43,7 +43,7 @@ export default function CameraScreen({ navigation }: Props) {
   const takePicture = async () => {
     if (cameraRef.current) {
       try {
-        const photo = await cameraRef.current.takePictureAsync({ quality: 0.5 });
+        const photo = await cameraRef.current.takePictureAsync({ quality: 0.5, shutterSound:false });
         if (photo) {
           navigation.navigate('Profile', { photoUri: photo.uri });
         }

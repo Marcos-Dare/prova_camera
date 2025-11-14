@@ -133,14 +133,15 @@ export default function ProfileScreen({ route, navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Minha Foto</Text>
-      
-      {currentDisplayPhotoUri ? (
-        <Image source={{ uri: currentDisplayPhotoUri }} style={styles.mainImage} />
-      ) : (
-        <View style={styles.mainImagePlaceholder}>
-          <Text style={styles.noPhotoText}>Tire uma foto na Câmera</Text>
-        </View>
-      )}
+      <View style={styles.quadrin}>
+        {currentDisplayPhotoUri ? (
+          <Image source={{ uri: currentDisplayPhotoUri }} style={styles.mainImage} />
+        ) : (
+          <View style={styles.mainImagePlaceholder}>
+            <Text style={styles.noPhotoText}>Tire uma foto na Câmera</Text>
+          </View>
+        )}
+      </View>
 
       <View style={styles.buttonContainer}>
         {showSaveButton && (
@@ -275,4 +276,13 @@ const styles = StyleSheet.create({
     color: '#666', 
     fontStyle: 'italic' 
   },
+  quadrin: {
+    backgroundColor: 'orange',
+    width: 320,
+    height: 320,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginBottom: 10,
+  }
 });
