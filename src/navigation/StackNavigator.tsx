@@ -10,7 +10,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export function StackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Camera">
+    <Stack.Navigator initialRouteName="Profile">
       <Stack.Screen
         name="Camera"
         component={CameraScreen}

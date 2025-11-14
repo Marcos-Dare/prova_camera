@@ -1,6 +1,6 @@
 import { InMemoryProfileRepository } from '../repositories/InMemoryProfileRepository'; 
 const profileRepository = InMemoryProfileRepository.getInstance();
-// src/screens/ProfileScreen.tsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   View, 
@@ -13,15 +13,19 @@ import {
   TouchableOpacity 
 } from 'react-native';
 
-import { DrawerProps } from '../navigation/types';
-// import { StackProps } from '../navigation/types';
-// import { TabProps } from '../navigation/types';
 
-type Props = DrawerProps<'Profile'>;
-// type Props = StackProps<'Profile'>;
-// type Props = TabProps<'Profile'>;
 
-export default function ProfileScreen({ route }: Props) {
+
+// import { DrawerProps } from '../navigation/types';
+//import { StackProps } from '../navigation/types';
+ import { TabProps } from '../navigation/types';
+
+// type Props = DrawerProps<'Profile'>;
+//type Props = StackProps<'Profile'>; // Estamos em "Modo Stack"
+ type Props = TabProps<'Profile'>;
+
+// MUDANÇA 2: Receber a prop 'navigation'
+export default function ProfileScreen({ route, navigation }: Props) {
   const newPhotoUriFromCamera = route.params?.photoUri;
 
   const [currentDisplayPhotoUri, setCurrentDisplayPhotoUri] = useState<string | null>(null);
@@ -155,6 +159,14 @@ export default function ProfileScreen({ route }: Props) {
         )}
       </View>
 
+      {/* MUDANÇA 3: O botão que usa 'navigation' */}
+      <View style={styles.navButtonContainer}>
+        <Button
+          title="Tirar Nova Foto"
+          onPress={() => navigation.navigate('Camera')}
+        />
+      </View>
+
       <Text style={styles.subtitle}>Minhas Fotos Salvas</Text>
       
       {savedPhotos.length > 0 ? (
@@ -226,6 +238,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginBottom: 10,
     minHeight: 40
+  },
+  // MUDANÇA 4: O estilo para o botão
+  navButtonContainer: {
+    width: '80%',
+    marginVertical: 5,
   },
   subtitle: { 
     fontSize: 20, 

@@ -4,13 +4,13 @@ import { View, Button, Text, StyleSheet, TouchableOpacity, Alert } from 'react-n
 import { Camera, CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'; // Usaremos ícones para os botões
 
-import { DrawerProps } from '../navigation/types';
-// import { StackProps } from '../navigation/types';
-// import { TabProps } from '../navigation/types';
+//import { DrawerProps } from '../navigation/types';
+ //import { StackProps } from '../navigation/types';
+ import { TabProps } from '../navigation/types';
 
-type Props = DrawerProps<'Camera'>;
-// type Props = StackProps<'Camera'>;
-// type Props = TabProps<'Camera'>;
+//type Props = DrawerProps<'Camera'>;
+//type Props = StackProps<'Camera'>;
+type Props = TabProps<'Camera'>;
 
 export default function CameraScreen({ navigation }: Props) {
   const [permission, requestPermission] = useCameraPermissions();
